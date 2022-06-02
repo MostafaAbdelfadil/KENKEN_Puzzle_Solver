@@ -189,7 +189,51 @@ class KenKen:
             X.val = 0
         return False
 
+    def show_cages(self):
+        '''Shows the empty KenKen board with the cage constraints'''
+        j=0
+        i=0
+        for roww in self.board:
+            col=[]
+            for element in roww:
+                
+                col.append(str(element.cage.goal)+element.cage.op)
 
+                e=tk.Entry(window,width=20, fg='blue',
+                            font=('Arial',16,'bold'))
+                e.grid(row=i, column=j)
+                    
+                e.insert(tk.END, col[j])  
+                j+=1
+            j=0 
+            i+=1 
+
+    def show_board(self,Button1,Button2,Button3,Checkbutton1,Checkbutton2,kenken,cells_domains):
+        '''Prints the board with the values in it'''
+        if Checkbutton1.get():
+            s = kenken.backtrack()
+        elif  Checkbutton2.get():
+            s = kenken.forward_check(var_domains=cells_domains, show=False)
+        j=0
+        i=0
+        for roww in self.board:
+            col=[]
+
+            for element in roww:
+                col.append('('+str(element.cage.goal)+element.cage.op+') '+str(element.val))
+                # col.append(element.val)
+                e=tk.Entry(window,width=20, fg='blue',
+                            font=('Arial',16,'bold'))
+                e.grid(row=i, column=j)
+                    
+                e.insert(tk.END, col[j])
+                
+                j+=1
+            j=0 
+            i+=1   
+        Button1.grid_remove()
+        Button2.grid_remove()
+        Button3.grid_remove()
 
 
 
