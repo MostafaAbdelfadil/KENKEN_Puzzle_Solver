@@ -28,6 +28,50 @@ class Cell:
                 childs.append(cell)
 
         return childs
+
+        
+class Cage:
+    def __init__(self, cells=None, op=None, goal=None):
+        self.cells = [] if cells==None else cells
+        self.op = op
+        self.goal = goal
+        if cells is not None: self.assign_cages()
+
+    def assign_cages(self):
+        for cell in self.cells:
+            cell.cage = self
+
+    def check_constraint(self):
+        if self.op == '+': return self.check_add()
+        if self.op == '-': return self.check_subtract()
+        if self.op == '*': return self.check_multiply()
+        if self.op == '/': return self.check_divide()
+        if self.op == '=': return self.cells[0].val == self.goal
+    
+    def check_add(self):
+        res = sum([c.val for c in self.cells])
+        return res <= self.goal
+
+    def check_subtract(self):
+        v1 = self.cells[0].val
+        v2 = self.cells[1].val
+        #cage still empty
+        if v1 == 0 or v2 == 0: return True
+        return abs(v1-v2) == self.goal
+
+    def check_multiply(self):
+        res = prod([c.val for c in self.cells if c.val!=0])
+        return res <= self.goal
+
+    def check_divide(self):
+        v1 = self.cells[0].val
+        v2 = self.cells[1].val
+        maxi, mini = max(v1,v2), min(v1,v2)
+        #cage still empty
+        if v1 == 0 or v2 == 0: return True
+        if maxi % mini != 0: return False
+        return maxi // mini == self.goal
+
     
 class KenKen:
     '''
