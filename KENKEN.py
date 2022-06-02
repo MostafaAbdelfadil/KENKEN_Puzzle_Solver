@@ -215,6 +215,36 @@ class KenKen:
                 if self.board[i][j].val == 0: return self.board[i][j]
         return None
 
+    def update_domains(self, var_domains, X):
+        '''Update current domain of the variable cells according to constraints'''
+        updated = []
+        for i in range(self.size):
+            updated.append([])
+            for j in range(self.size):
+                updated[i].append(set())
+
+        i1=0
+        j1=0
+        for i in var_domains:
+            for j in i:
+                for k in j:
+                    updated[i1][j1].add(k)
+                j1 += 1
+            j1 = 0
+            i1 += 1
+
+        for cell in X.childs(self.board):
+            if cell.val == 0:
+                up_set = set()
+                for dom in updated[cell.cooridnates[0]][cell.cooridnates[1]]:
+                    cell.val = dom
+                    if not self.is_valid(cell):
+                        up_set.add(dom)
+                    cell.val = 0
+                for s in up_set:
+                    updated[cell.cooridnates[0]][cell.cooridnates[1]].discard(s)
+        return updated
+
     def forward_check(self, var_domains, show=False):
         '''Solves the KenKen board with backtracking with forward checking algorithm'''
 
