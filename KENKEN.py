@@ -208,6 +208,13 @@ class KenKen:
             j=0 
             i+=1 
 
+    def get_empty(self):
+        '''Get the next empty cell in board'''
+        for i in range(self.size):
+            for j in range(self.size):
+                if self.board[i][j].val == 0: return self.board[i][j]
+        return None
+
     def is_valid(self, cell):
         '''Checks if the number in the cell is valid'''
         condition = True
