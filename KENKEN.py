@@ -144,3 +144,68 @@ class KenKen:
                 if result: return True
             X.val = 0
         return False
+
+
+
+
+
+
+
+
+
+        
+def ken_ken(n):
+ kenken = KenKen(n-1)
+ kenken.show_cages()
+ cells_domains =[]
+ for i in range(n-1):
+    cells_domains.append([])
+    for j in range(n-1):
+        cells_domains[i].append(set(range(1, (n-1)+1)))
+ Checkbutton1 = tk.IntVar()  
+ Checkbutton2 = tk.IntVar()  
+ Button1 = tk.Checkbutton(window, text = "BT", 
+                      variable=Checkbutton1,
+                      onvalue = 1,
+                      offvalue = 0,
+                      height = 2,
+                      width = 10)
+ Button2 = tk.Checkbutton(window, text = "FC", 
+                      variable=Checkbutton2,
+                      onvalue = 1,
+                      offvalue = 0,
+                      height = 2,
+                      width = 10)
+
+
+
+
+ Button3= tk.Button(window, text="Solve", command=lambda: kenken.show_board(Button1,Button2,Button3,Checkbutton1,Checkbutton2,kenken,cells_domains))
+
+
+
+ Button1.grid(row=n, column=1)                     
+ Button2.grid(row=n+1, column=1)
+ Button3.grid(row=n, column=2)
+
+
+ 
+
+
+
+def get_value(myentry,mybutton):
+  n=int(myentry.get())+1   
+  myentry.pack_forget() 
+  mybutton.pack_forget()
+  ken_ken(n)
+  button1= tk.Button(window, text="Generate", command=lambda:  ken_ken(n)).grid(row=n+1, column=2)
+
+
+  
+window = tk.Tk()
+myentry = tk.Entry(window, width = 20)
+myentry.pack(pady = 5)
+mybutton = tk.Button(window, text = "Generate", command=lambda:get_value(myentry,mybutton))
+mybutton.pack(pady = 5)
+window.title("KenKen")
+window.mainloop()
