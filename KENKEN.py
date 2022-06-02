@@ -215,6 +215,26 @@ class KenKen:
                 if self.board[i][j].val == 0: return self.board[i][j]
         return None
 
+    def forward_check(self, var_domains, show=False):
+        '''Solves the KenKen board with backtracking with forward checking algorithm'''
+
+        for i in var_domains:
+            for j in i:
+                if len(j) == 0:
+                    return False
+        current = var_domains.copy()
+        X = self.get_empty()
+        if X is None: return True
+        for v in current[X.cooridnates[0]][X.cooridnates[1]]:
+            X.val = v
+            post_domain = self.update_domains(var_domains=current, X=X)
+            if show: self.show_board()
+            result = self.forward_check(var_domains=post_domain.copy(), show=show)
+            if result:
+                return True
+            X.val = 0
+        return False
+
     def is_valid(self, cell):
         '''Checks if the number in the cell is valid'''
         condition = True
