@@ -208,6 +208,17 @@ class KenKen:
             j=0 
             i+=1 
 
+    def is_valid(self, cell):
+        '''Checks if the number in the cell is valid'''
+        condition = True
+        i, j = cell.cooridnates
+        row = [self.board[i][x].val for x in range(self.size) if x != j]
+        col = [self.board[x][j].val for x in range(self.size) if x != i]
+        elements = row + col
+        condition &= (elements.count(cell.val) == 0)
+        condition &= cell.cage.check_constraint()
+        return condition
+
     def show_board(self,Button1,Button2,Button3,Checkbutton1,Checkbutton2,kenken,cells_domains):
         '''Prints the board with the values in it'''
         if Checkbutton1.get():
