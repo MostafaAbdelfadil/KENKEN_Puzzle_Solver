@@ -131,6 +131,16 @@ class KenKen:
                 cage_objects[cage_ids[i][j]-1].cells.append(board[i][j])
         
         return board
-    
 
-
+    def backtrack(self, show=False):
+        '''Solves the KenKen board with backtracking algorithm'''
+        X = self.get_empty()
+        if X is None: return True
+        for v in X.domain:
+            X.val = v
+            if show: self.show_board()
+            if self.is_valid(X):
+                result = self.backtrack(show=show)
+                if result: return True
+            X.val = 0
+        return False
